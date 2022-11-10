@@ -1,0 +1,99 @@
+﻿@model LibraryReservedSystem.Models.Book
+@{
+    ViewData["Title"] = "Check-Out";
+}
+<h1>Check Out</h1>
+
+<h4>@Html.DisplayFor(model => model.BookTitle)</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Subject)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Subject)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.CourseNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CourseNumber)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.CourseTitle)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CourseTitle)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Professor)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Professor)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Edition)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Edition)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ISBN)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ISBN)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Author)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Author)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.CallNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CallNumber)
+        </dd>
+    </div>
+    <div class="col-md-4">
+        <form asp-action="CheckOut">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <!--Label/Textbox for Student ID of who is checking out the book-->
+            <div class="form-group">
+                <label asp-for="studIDCheckIO" class="control-label"></label>
+                <input asp-for="studIDCheckIO" class="form-control" value="" />
+                <span asp-validation-for="studIDCheckIO" class="text-danger"></span>
+            </div>
+            <!--Label/Calendar Picker for the date that the book is being checked out on-->
+            <div class="form-group">
+                <label asp-for="checkOutDate" class="control-label"></label>
+                <input asp-for="checkOutDate" class="form-control" textmode="DateTime" value="DateTime.Today" />
+                <span asp-validation-for="checkOutDate" class="text-danger"></span>
+            </div>
+            <!--Label/Calendar Picker for the date that the book should be checked in by-->
+            <div class="form-group">
+                <label asp-for="checkInDate" class="control-label"></label>
+                <input asp-for="checkInDate" class="form-control" textmode="DateTime" value="DateTime.Today" />
+                <span asp-validation-for="checkInDate" class="text-danger"></span>
+            </div>
+
+            <!--Check-out button-->
+            <div class="form-group">
+                <input type="submit" value="Check-Out" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

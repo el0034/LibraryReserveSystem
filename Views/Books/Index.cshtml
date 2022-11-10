@@ -1,0 +1,149 @@
+﻿@model IEnumerable<LibraryReservedSystem.Models.Book>
+
+@{
+    ViewData["Title"] = "Inventory";
+}
+
+<h1>Books</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<!--Creating the textbox for searching by the Book Title-->
+<p>
+    <form asp-action="ShowSearchResults">
+        <div class="form-group">
+            <label for="BookTitle" class="control-label"></label>
+
+            <input name="SearchTitle" class="form-control" placeholder="Search Book Title" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Search" class="btn btn-primary" />
+        </div>
+    </form>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CourseNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CourseTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Professor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookTitle)
+            </th>
+            <!--
+            <th>
+            @Html.DisplayNameFor(model => model.Edition)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.ISBN)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.CallNumber)
+            </th>
+            -->
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseTitle)
+                </td>
+                <!---
+                 <td>
+                @Html.DisplayFor(modelItem => item.Professor)
+                </td>
+                -->
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookTitle)
+                </td>
+                <!--
+                <td>
+                @Html.DisplayFor(modelItem => item.Edition)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.ISBN)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.CallNumber)
+                </td>
+                -->
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a> |
+                    <a asp-action="CheckIn" asp-route-id="@item.ID">Check-In</a> |
+                    <a asp-action="CheckOut" asp-route-id="@item.ID">Check-Out</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script type="text/javascript">
+        // function to display the dialog
+        function openSuccessModal(strMessage) {
+            // getting the modal box we created in _layout
+            var myDiv = document.getElementById("MyModalSuccessAlertBody");
+            myDiv.innerHTML = strMessage;
+            // call the modal message
+            $('#myModalSuccess').modal('show');
+        }
+
+        function buttonClick() {
+            ClosttButt.close();
+        }
+
+        // this is how it will be displayed
+        $(document).ready(function () {
+            var msg = "@TempData["SuccessMessage"]";
+            if (msg)
+                openSuccessModal(msg);
+        });
+
+
+        // function to display the dialog
+        function openWarningModal(strWarnMessage) {
+            // getting the modal box we created in _layout
+            var myDiv = document.getElementById("MyModalWarningAlertBody");
+            myDiv.innerHTML = strWarnMessage;
+            // call the modal message
+            $('#myModalWarning').modal('show');
+        }
+        // this is how it will be displayed
+        $(document).ready(function () {
+            var warnMsg = "@TempData["WarningMessage"]";
+            if (warnMsg)
+                openWarningModal(warnMsg);
+        });
+    </script>
+}
+
