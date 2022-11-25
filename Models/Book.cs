@@ -31,8 +31,8 @@ namespace LibraryReservedSystem.Models
         public Boolean isCheckedOut { get; set; }
 
         // Creating the variable to store the id of the student who has the book
-        [Display(Name = "Student ID")]
-        public double? studIDCheckIO { get; set; }
+        [Display(Name = "Reservee ID")]
+        public double? ReserveeID { get; set; }
 
         // Currently storing all inputs as Datetime, would it be better as a string? We will see.
         // Creating the variable to see the check out date for the book

@@ -11,7 +11,6 @@ using NuGet.Frameworks;
 
 namespace LibraryReservedSystem.Controllers
 {
-    // hi
     public class BooksController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -227,7 +226,7 @@ namespace LibraryReservedSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckOut(int id, [Bind("ID,Subject,CourseNumber,CourseTitle,Professor,BookTitle,Edition,ISBN,Author,CallNumber,numCopies,studIDCheckIO, checkOutDate, checkInDate")] Book book)
+        public async Task<IActionResult> CheckOut(int id, [Bind("ID,Subject,CourseNumber,CourseTitle,Professor,BookTitle,Edition,ISBN,Author,CallNumber,numCopies,ReserveeID, checkOutDate, checkInDate")] Book book)
         {
             if (id != book.ID)
             {
@@ -241,18 +240,20 @@ namespace LibraryReservedSystem.Controllers
                     // getting the book from the ID that was passed
                     var result = _context.Book.SingleOrDefault(b => b.ID == book.ID);
                     // trying to get the student who ID matches with the one that is checked out
-                    var studResult = _context.UserProfile.SingleOrDefault(n => n.WVUID == book.studIDCheckIO);
+                    var studResult = _context.UserProfile.SingleOrDefault(n => n.WVUID == book.ReserveeID);
                     if (result != null && studResult != null && studResult.itemCount < 3 && result.numCopies > 0 && book.checkInDate != null && book.checkOutDate != null)
                     {
                         // Set the check out/in dates, the student ID who has the book, 
                         // the student's item count and change the isCheckedOut value 
                         result.checkOutDate = book.checkOutDate;
                         result.checkInDate = book.checkInDate;
-                        result.studIDCheckIO = book.studIDCheckIO;
+                        result.ReserveeID = book.ReserveeID;
                         result.numCopies -= 1;
                         studResult.itemCount += 1;
                         result.isCheckedOut = true;
                         _context.SaveChanges();
+                        // Creating message for dialog box
+                        TempData["SuccessMessage"] = result.BookTitle + " was checked-out by " + studResult.Name + " " + studResult.WVUID;
                     }
                     else if (studResult == null || book.checkInDate == null || book.checkOutDate == null)
                     {
@@ -314,7 +315,7 @@ namespace LibraryReservedSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckIn(int id, [Bind("ID,Subject,CourseNumber,CourseTitle,Professor,BookTitle,Edition,ISBN,Author,CallNumber,numCopies,studIDCheckIO, checkOutDate, checkInDate")] Book book)
+        public async Task<IActionResult> CheckIn(int id, [Bind("ID,Subject,CourseNumber,CourseTitle,Professor,BookTitle,Edition,ISBN,Author,CallNumber,numCopies,ReserveeID, checkOutDate, checkInDate")] Book book)
         {
 
             if (id != book.ID)
@@ -329,7 +330,7 @@ namespace LibraryReservedSystem.Controllers
                     // getting the book from the ID that was passed
                     var result = _context.Book.SingleOrDefault(b => b.ID == book.ID);
                     // trying to get the student who ID matches with the one that is checked out
-                    var studResult = _context.UserProfile.SingleOrDefault(n => n.WVUID == result.studIDCheckIO);
+                    var studResult = _context.UserProfile.SingleOrDefault(n => n.WVUID == result.ReserveeID);
                     if (result != null && studResult != null)
                     {
                         // Seeing if the book was checked in on time 
@@ -346,7 +347,7 @@ namespace LibraryReservedSystem.Controllers
 
                         result.checkOutDate = null;
                         result.checkInDate = null;
-                        result.studIDCheckIO = null;
+                        result.ReserveeID = null;
                         result.numCopies += 1;
                         studResult.itemCount -= 1;
                         result.isCheckedOut = false;
