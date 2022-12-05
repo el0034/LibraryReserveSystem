@@ -15,4 +15,4 @@ The LRS will resolve many issues, including record keeping, centralized data, an
 Excel spreadsheet to find textbooks, and physically inputting information for statistics each summer, this application will allow for the digitization of everything 
 that the reserve system currently handles. 
 
-This project is created by Christiana DiPisa, Elizabeth Lowe, and Noah Quesenberry.
+This project is created by Christiana DiPisa, Elizabeth Lowe, and Noah Quesenberry for their Capstone Project.
